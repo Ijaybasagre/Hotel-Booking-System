@@ -15,7 +15,7 @@ This project is a hotel booking system developed using Spring Boot, Spring Data 
 - **Spring Boot**: Framework for creating Spring-powered applications.
 - **Spring Data JPA**: Simplifies data access layer implementation.
 - **MySQL**: Relational database management system for storing application data.
-- **Java 17**: Programming language used for backend development.
+- **Java 21**: Programming language used for backend development.
 
 ## Setup Instructions
 
