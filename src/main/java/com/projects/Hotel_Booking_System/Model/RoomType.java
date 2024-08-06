@@ -1,6 +1,7 @@
 package com.projects.Hotel_Booking_System.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,12 +29,19 @@ public class RoomType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String code;
+
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String amenities;
 
+    @Column(nullable = false)
     private double baseRate;
 
 

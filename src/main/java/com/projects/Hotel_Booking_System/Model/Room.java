@@ -1,8 +1,11 @@
 package com.projects.Hotel_Booking_System.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projects.Hotel_Booking_System.Model.Enums.RoomStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +34,6 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true)
     private Integer roomNumber;
 
     private Integer maximumOccupancy;
@@ -39,6 +41,10 @@ public class Room {
     private Boolean availability;
 
     private Integer rating;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
+    private RoomStatus status;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")

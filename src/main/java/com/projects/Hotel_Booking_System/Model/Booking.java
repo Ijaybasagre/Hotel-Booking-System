@@ -2,6 +2,7 @@ package com.projects.Hotel_Booking_System.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projects.Hotel_Booking_System.Model.Enums.BookingStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -39,26 +40,31 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    @Column(nullable = false)
+    @Temporal(value = TemporalType.DATE)
     private Date checkInDate;
 
+    @Column(nullable = false)
+    @Temporal(value = TemporalType.DATE)
     private Date checkOutDate;
 
     private Time checkOutTime;
 
     @Temporal(value = TemporalType.DATE)
     private Date reservationDate;
+
+    @Column(nullable = false)
     private Double totalPrice;
 
     @Enumerated(value = EnumType.STRING)
     private BookingStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
     @ManyToOne
-    @JoinColumn(name = "guest_id")
+    @JoinColumn(name = "guest_id", nullable = false)
     @JsonIgnore
     private Guest guest;
 

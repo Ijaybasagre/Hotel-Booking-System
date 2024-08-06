@@ -3,6 +3,7 @@ package com.projects.Hotel_Booking_System.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projects.Hotel_Booking_System.Model.Enums.PaymentMethod;
 import com.projects.Hotel_Booking_System.Model.Enums.PaymentStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,21 +32,25 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false)
     private Date paymentDate;
+
+    @Column(nullable = false, columnDefinition = "double default 0")
     private Double amount;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private PaymentMethod paymentMethod;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private PaymentStatus status;
 
     @OneToOne
     @JoinColumn(name = "booking_id")
     @JsonIgnore
     private Booking booking;
-
-
 
 
 }

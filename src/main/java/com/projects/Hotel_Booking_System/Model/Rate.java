@@ -1,6 +1,7 @@
 package com.projects.Hotel_Booking_System.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,7 @@ public class Rate {
     private Date validFrom;
     private Date validTo;
 
+    @Column(nullable = false)
     private double price;
 
     @ManyToOne

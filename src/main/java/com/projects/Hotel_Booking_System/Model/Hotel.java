@@ -29,17 +29,21 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false)
     private String contactNumber;
 
+    @Column(nullable = false)
     private String email;
 
     private int rating;
 
-    @OneToMany(mappedBy = "hotel",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> rooms;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
