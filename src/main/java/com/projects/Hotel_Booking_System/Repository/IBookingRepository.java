@@ -9,11 +9,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface IBookingRepository extends JpaRepository<Booking, Integer>{
+public interface IBookingRepository extends JpaRepository<Booking, Integer> {
 
 
     List<Booking> findAllByStatus(BookingStatus status);
 
-    List<Booking>
-
+    List<Booking> findByCheckInDate(LocalDate checkInDate);
 }
