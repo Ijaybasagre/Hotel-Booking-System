@@ -1,11 +1,7 @@
 package com.projects.Hotel_Booking_System.Service;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projects.Hotel_Booking_System.Model.Rate;
-import com.projects.Hotel_Booking_System.Model.Room;
 import com.projects.Hotel_Booking_System.Model.RoomType;
 import com.projects.Hotel_Booking_System.Repository.IRoomTypeRepository;
-import jakarta.persistence.OneToMany;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +11,7 @@ import java.util.List;
 @Service
 public class RoomTypeService {
 
-    private IRoomTypeRepository roomTypeRepository;
+    private final IRoomTypeRepository roomTypeRepository;
 
     public RoomTypeService(IRoomTypeRepository roomTypeRepository) {
         this.roomTypeRepository = roomTypeRepository;
@@ -30,6 +26,10 @@ public class RoomTypeService {
         return findById(id);
     }
 
+    public RoomType getRoomTypeByCode(String code) {
+        return roomTypeRepository.findByCode(code);
+    }
+
     public RoomType addRoomType(RoomType roomType) {
         return roomTypeRepository.save(roomType);
     }
@@ -42,7 +42,7 @@ public class RoomTypeService {
         roomTypeToBeUpdate.setBaseRate(roomType.getBaseRate());
         roomTypeToBeUpdate.setRooms(roomType.getRooms());
         roomTypeToBeUpdate.setRates(roomType.getRates());
-        return roomTypeRepository.save(roomType);
+        return roomTypeRepository.save(roomTypeToBeUpdate);
     }
 
     public void deleteRoomType(int id) {
@@ -54,7 +54,6 @@ public class RoomTypeService {
         return roomTypeRepository.findById(id).orElseThrow(
                 () -> new IllegalStateException("RoomType with id " + id + " does not exist"));
     }
-
 
 
 }

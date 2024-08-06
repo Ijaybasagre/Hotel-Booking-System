@@ -1,10 +1,12 @@
 package com.projects.Hotel_Booking_System.Service;
 
 import com.projects.Hotel_Booking_System.Model.Employee;
+import com.projects.Hotel_Booking_System.Model.Role;
 import com.projects.Hotel_Booking_System.Repository.IEmployeeRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,8 +15,11 @@ public class EmployeeService {
 
     private final IEmployeeRepository employeeRepository;
 
-    public EmployeeService(IEmployeeRepository employeeRepository) {
+    private final RoleService roleService;
+
+    public EmployeeService(IEmployeeRepository employeeRepository, RoleService roleService) {
         this.employeeRepository = employeeRepository;
+        this.roleService = roleService;
     }
 
     public List<Employee> getAllEmployees(int page, int size) {
@@ -26,14 +31,21 @@ public class EmployeeService {
         return findById(id);
     }
 
-    public List<Employee> getEmployeeByRole(String role) {
+    public List<Employee> getEmployeeByRole(String roleName, String roleCode) {
+        Role role = roleService.findByRoleNameOrCode(roleName, roleCode);
         return employeeRepository.findByRole(role);
     }
 
+    public List<Employee> getEmployeeByName(String employeeName) {
+        return employeeRepository.findByNameContainsIgnoreCase(employeeName);
+    }
+
+    @Transactional
     public Employee addEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
+    @Transactional
     public Employee updateEmployee(Employee employee, int id) {
         Employee existingEmployee = findById(id);
         existingEmployee.setName(employee.getName());
@@ -42,9 +54,15 @@ public class EmployeeService {
         existingEmployee.setEmail(employee.getEmail());
         existingEmployee.setHotel(employee.getHotel());
         existingEmployee.setRole(employee.getRole());
-        return employeeRepository.save(employee);
+        return employeeRepository.save(existingEmployee);
     }
 
+    @Transactional
+    public void updateEmployee(Employee employee) {
+        employeeRepository.save(employee);
+    }
+
+    @Transactional
     public void deleteEmployee(int id) {
         findById(id);
         employeeRepository.deleteById(id);

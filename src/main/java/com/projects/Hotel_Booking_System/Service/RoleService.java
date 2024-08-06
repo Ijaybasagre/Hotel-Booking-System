@@ -35,12 +35,16 @@ public class RoleService {
         existingRole.setName(role.getName());
         existingRole.setCode(role.getCode());
         existingRole.setEmployees(role.getEmployees());
-        return roleRepository.save(role);
+        return roleRepository.save(existingRole);
     }
 
     public void deleteRole(int id) {
         findById(id);
         roleRepository.deleteById(id);
+    }
+
+    public Role findByRoleNameOrCode(String role, String code) {
+        return roleRepository.findByNameOrCodeIgnoreCase(role, code);
     }
 
     private Role findById(int id) {

@@ -7,6 +7,7 @@ import com.projects.Hotel_Booking_System.Repository.IHotelRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,11 +36,19 @@ public class HotelService {
         return findById(id);
     }
 
+    @Transactional
     public Hotel addHotel(Hotel hotel) {
+        if (hotel.getRooms() != null) {
+            hotel.getRooms().forEach(room -> room.setHotel(hotel));
+        }
+        if (hotel.getEmployees() != null) {
+            hotel.getEmployees().forEach(employee -> employee.setHotel(hotel));
+        }
         return hotelRepository.save(hotel);
     }
 
 
+    @Transactional
     public Hotel updateHotel(Hotel hotel, int hotelId) {
         Hotel hotelToBeUpdate = findById(hotelId);
         hotelToBeUpdate.setName(hotel.getName());
@@ -47,14 +56,25 @@ public class HotelService {
         hotelToBeUpdate.setContactNumber(hotel.getContactNumber());
         hotelToBeUpdate.setEmail(hotel.getEmail());
         hotelToBeUpdate.setRating(hotel.getRating());
+        if (hotel.getRooms() != null) {
+            hotel.getRooms().forEach(room -> room.setHotel(hotel));
+        }
         hotelToBeUpdate.setRooms(hotel.getRooms());
-        return hotelRepository.save(hotel);
+
+        if (hotel.getEmployees() != null) {
+            hotel.getEmployees().forEach(employee -> employee.setHotel(hotel));
+        }
+
+        hotelToBeUpdate.setEmployees(hotel.getEmployees());
+        return hotelRepository.save(hotelToBeUpdate);
     }
 
+    @Transactional
     public void deleteHotel(int id) {
         hotelRepository.deleteById(id);
     }
 
+    @Transactional
     public Hotel addRoomToHotel(int hotelId, int roomId) {
         Hotel hotel = findById(hotelId);
         Room room = roomService.findById(roomId);
@@ -63,13 +83,33 @@ public class HotelService {
         return hotelRepository.save(hotel);
     }
 
+    @Transactional
+    public void removeRoomToHotel(int hotelId, int roomId) {
+        Hotel hotel = findById(hotelId);
+        Room room = roomService.findById(roomId);
+        hotel.getRooms().remove(room);
+        room.setHotel(null);
+        roomService.updateRoom(room);
+        hotelRepository.save(hotel);
+    }
 
+    @Transactional
     public Hotel addEmployeeToHotel(int hotelId, int employeeId) {
         Hotel hotel = findById(hotelId);
         Employee employee = employeeService.findById(employeeId);
         employee.setHotel(hotel);
         hotel.getEmployees().add(employee);
         return hotelRepository.save(hotel);
+    }
+
+    @Transactional
+    public void removeEmployeeToHotel(int hotelId, int employeeId) {
+        Hotel hotel = findById(hotelId);
+        Employee employee = employeeService.findById(employeeId);
+        hotel.getEmployees().remove(employee);
+        employee.setHotel(null);
+        employeeService.updateEmployee(employee);
+        hotelRepository.save(hotel);
     }
 
     private Hotel findById(int hotelId) {

@@ -5,6 +5,7 @@ import com.projects.Hotel_Booking_System.Repository.IFeedBackRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,10 +27,13 @@ public class FeedBackService {
         return findById(feedBackId);
     }
 
+    @Transactional
     public FeedBack addFeedBack(FeedBack feedBack) {
+        feedBack.setBooking(feedBack.getBooking());
         return feedBackRepository.save(feedBack);
     }
 
+    @Transactional
     public FeedBack updateFeedBack(FeedBack feedBack, int feedBackId) {
         FeedBack existingFeedBack = findById(feedBackId);
         existingFeedBack.setBooking(feedBack.getBooking());
@@ -39,6 +43,7 @@ public class FeedBackService {
         return feedBackRepository.save(existingFeedBack);
     }
 
+    @Transactional
     public void deleteFeedBack(int feedBackId) {
         FeedBack feedBack = findById(feedBackId);
         feedBackRepository.delete(feedBack);

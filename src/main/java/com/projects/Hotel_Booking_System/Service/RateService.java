@@ -38,8 +38,9 @@ public class RateService {
         rateToBeUpdate.setValidFrom(rate.getValidFrom());
         rateToBeUpdate.setValidTo(rate.getValidTo());
         rateToBeUpdate.setRoomType(rate.getRoomType());
-        return rateRepository.save(rate);
+        return rateRepository.save(rateToBeUpdate);
     }
+
     public void deleteRate(int id) {
         rateRepository.deleteById(id);
     }

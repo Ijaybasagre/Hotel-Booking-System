@@ -39,7 +39,7 @@ public class GuestService {
         guestToBeUpdate.setEmail(guest.getEmail());
         guestToBeUpdate.setNationality(guest.getNationality());
         guestToBeUpdate.setBookings(guest.getBookings());
-        return guestRepository.save(guest);
+        return guestRepository.save(guestToBeUpdate);
     }
 
     public void deleteGuest(int id) {
