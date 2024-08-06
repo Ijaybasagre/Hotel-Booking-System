@@ -50,9 +50,21 @@ public class HotelController {
         return ResponseEntity.ok(hotelService.addRoomToHotel(hotelId, roomId));
     }
 
+    @DeleteMapping("/{hotelId}/rooms/{roomId}")
+    public ResponseEntity<Hotel> removeRoomFromHotel(@PathVariable int hotelId, @PathVariable int roomId) {
+        hotelService.removeRoomToHotel(hotelId, roomId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/{hotelId}/employees/{employeeId}")
     public ResponseEntity<Hotel> addEmployeeToHotel(@PathVariable int hotelId, @PathVariable int employeeId) {
         return ResponseEntity.ok(hotelService.addEmployeeToHotel(hotelId, employeeId));
+    }
+
+    @DeleteMapping("/{hotelId}/employees/{employeeId}")
+    public ResponseEntity<Hotel> removeEmployeeFromHotel(@PathVariable int hotelId, @PathVariable int employeeId) {
+        hotelService.removeEmployeeToHotel(hotelId, employeeId);
+        return ResponseEntity.noContent().build();
     }
 
 

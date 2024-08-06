@@ -1,6 +1,7 @@
 package com.projects.Hotel_Booking_System.Controller;
 
 import com.projects.Hotel_Booking_System.Model.Payment;
+import com.projects.Hotel_Booking_System.Model.Request.PaymentRequest;
 import com.projects.Hotel_Booking_System.Service.PaymentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,13 +37,13 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<Payment> addPayment(@RequestBody Payment payment) {
+    public ResponseEntity<Payment> addPayment(@RequestBody PaymentRequest payment) {
         return ResponseEntity.ok(paymentService.addPayment(payment));
     }
 
     @PutMapping("/{paymentId}")
-    public ResponseEntity<Payment> updatePayment(@RequestBody Payment payment, @PathVariable int paymentId) {
-        return ResponseEntity.ok(paymentService.updatePayment(payment, paymentId));
+    public ResponseEntity<Payment> updatePayment(@RequestBody PaymentRequest paymentRequest, @PathVariable int paymentId) {
+        return ResponseEntity.ok(paymentService.updatePayment(paymentRequest, paymentId));
     }
 
     @DeleteMapping("/{paymentId}")

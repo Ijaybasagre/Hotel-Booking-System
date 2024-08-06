@@ -2,6 +2,9 @@ package com.projects.Hotel_Booking_System.Controller;
 
 import com.projects.Hotel_Booking_System.Model.Booking;
 import com.projects.Hotel_Booking_System.Model.Enums.BookingStatus;
+import com.projects.Hotel_Booking_System.Model.Payment;
+import com.projects.Hotel_Booking_System.Model.Request.BookingRequest;
+import com.projects.Hotel_Booking_System.Model.Response.BookingResponse;
 import com.projects.Hotel_Booking_System.Service.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -42,21 +46,31 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getAllBookingsByStatus(bookingStatus));
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<Booking>> getBookingBetweenCheckInDateAndCheckOutDate(@RequestParam String checkInDate, @RequestParam String checkOutDate) {
-//        return ResponseEntity.ok(bookingService.getBookingBetweenCheckInDateAndCheckOutDate(checkInDate, checkOutDate));
-//    }
-
+    @GetMapping("/checkInDate={checkInDate}")
+    public ResponseEntity<List<Booking>> getBooking(@PathVariable String checkInDate) {
+        return ResponseEntity.ok(bookingService.getBookingsByCheckInDate(LocalDate.parse(checkInDate)));
+    }
 
     @PostMapping
-    public ResponseEntity<Booking> addBooking(@RequestBody Booking booking) {
-        return ResponseEntity.ok(bookingService.addBooking(booking));
+    public ResponseEntity<BookingResponse> addBooking(@RequestBody BookingRequest bookingRequest) {
+        return ResponseEntity.ok(bookingService.addBooking(bookingRequest));
     }
 
     @PutMapping("/{bookingId}")
     public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking, @PathVariable int bookingId) {
         return ResponseEntity.ok(bookingService.updateBooking(booking, bookingId));
     }
+
+    @PostMapping("/{bookingId}/payment")
+    public ResponseEntity<Booking> addBookingPayment(@RequestBody Payment payment, @PathVariable int bookingId) {
+        return ResponseEntity.ok(bookingService.addBookingPayment(payment, bookingId));
+    }
+
+    @PutMapping("/{bookingId}/payment/{paymentId}")
+    public ResponseEntity<Booking> updateBookingPayment(@RequestBody Payment payment, @PathVariable int bookingId, @PathVariable int paymentId) {
+        return ResponseEntity.ok(bookingService.updateBookingPayment(payment, bookingId, paymentId));
+    }
+
 
     @DeleteMapping("/{bookingId}")
     public ResponseEntity<Object> deleteBooking(@PathVariable int bookingId) {

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/roomTypes")
 public class RoomTypeController {
@@ -25,27 +27,32 @@ public class RoomTypeController {
 
 
     @GetMapping
-    public ResponseEntity<Object> getAllRoomTypes(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<List<RoomType>> getAllRoomTypes(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(roomTypeService.getAllRoomTypes(page, size));
     }
 
     @GetMapping("/{roomTypeId}")
-    public ResponseEntity<Object> getRoomType(@PathVariable int roomTypeId) {
+    public ResponseEntity<RoomType> getRoomType(@PathVariable int roomTypeId) {
         return ResponseEntity.ok(roomTypeService.getRoomType(roomTypeId));
     }
 
+    @GetMapping("/code={code}")
+    public ResponseEntity<RoomType> getRoomType(@PathVariable String code) {
+        return ResponseEntity.ok(roomTypeService.getRoomTypeByCode(code));
+    }
+
     @PostMapping
-    public ResponseEntity<Object> addRoomType(@RequestBody RoomType roomType) {
+    public ResponseEntity<RoomType> addRoomType(@RequestBody RoomType roomType) {
         return ResponseEntity.ok(roomTypeService.addRoomType(roomType));
     }
 
     @PutMapping("/{roomTypeId}")
-    public ResponseEntity<Object> updateRoomType(@RequestBody RoomType roomType, @PathVariable int roomTypeId) {
+    public ResponseEntity<RoomType> updateRoomType(@RequestBody RoomType roomType, @PathVariable int roomTypeId) {
         return ResponseEntity.ok(roomTypeService.updateRoomType(roomType, roomTypeId));
     }
 
     @DeleteMapping("/{roomTypeId}")
-    public ResponseEntity<Object> deleteRoomType(@PathVariable int roomTypeId) {
+    public ResponseEntity<Void> deleteRoomType(@PathVariable int roomTypeId) {
         roomTypeService.deleteRoomType(roomTypeId);
         return ResponseEntity.ok().build();
     }

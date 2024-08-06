@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
@@ -25,13 +27,28 @@ public class RoomController {
 
 
     @GetMapping
-    public ResponseEntity<Object> getAllRooms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<List<Room>> getAllRooms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(roomService.getAllRooms(page, size));
     }
 
     @GetMapping("/{roomId}")
     public ResponseEntity<Room> getRoom(@PathVariable int roomId) {
         return ResponseEntity.ok(roomService.getRoom(roomId));
+    }
+
+    @GetMapping("/number={roomNumber}")
+    public ResponseEntity<Room> getRoomByRoomNumber(@PathVariable int roomNumber) {
+        return ResponseEntity.ok(roomService.getRoomByRoomNumber(roomNumber));
+    }
+
+    @GetMapping("/status={status}")
+    public ResponseEntity<List<Room>> getRoom(@PathVariable String status) {
+        return ResponseEntity.ok(roomService.getRoomByStatus(status));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Room>> getRoom(@RequestParam String code, @RequestParam String status) {
+        return ResponseEntity.ok(roomService.getRoomsByTypeAndStatus(code, status));
     }
 
     @PostMapping

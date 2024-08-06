@@ -37,6 +37,16 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getEmployee(id));
     }
 
+    @GetMapping("/name={employeeName}")
+    public ResponseEntity<List<Employee>> getEmployeeByName(@PathVariable String employeeName) {
+        return ResponseEntity.ok(employeeService.getEmployeeByName(employeeName));
+    }
+
+    @GetMapping("/role={role}/code={code}")
+    public ResponseEntity<List<Employee>> getEmployeeByRoleCode(@PathVariable(required = false) String role, @PathVariable(required = false) String code) {
+        return ResponseEntity.ok(employeeService.getEmployeeByRole(role, code));
+    }
+
     @PostMapping
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
         return ResponseEntity.ok(employeeService.addEmployee(employee));
